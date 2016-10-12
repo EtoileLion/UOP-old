@@ -1,0 +1,244 @@
+Classes - What Are They, Why Do I Want One.
+
+#So what is a class?#
+A class is the IDEA of an object. The class definition is the thing that tells python... "When I tell you to create a Die, it has these methods (functions) and attributes (variables)." Note that this definition is a future tense. By defining a Die class, we have not CREATED any die, we've just described the idea of a Die.
+From this idea, we can make many Die, each unique objects that have their own values.
+
+ For example, here is my Die:
+ 
+import random
+class Die:
+	def __init__(self):
+		self.color = "Blue"
+		self.sides = 6
+	
+	def roll(self):
+		return random.randint(1,self.sides)
+		
+
+A simple dice class; it has 2 attributes (color and sides), and one callable method (roll) [Technically, it has two, but you should never really call __init__ directly]. Again, at this point, we have not created any of these things, we've just told python what it WILL look like when we create one. So, lets create one.
+
+mydie = Die()
+
+When an object is Instantiated (created), it will call its __init__ function. mydie is now an Instance of a Die class, it has a color "Blue", and sides 6:
+
+print(mydie.color)
+
+> Blue
+
+And we can roll that die.
+
+mydie.roll()
+
+> 3
+
+If i create a new Die...
+
+otherdie = Die()
+
+It too is a Die, it is blue, and it has 6 sides. But I can change that...
+
+otherdie.sides = 8
+
+print(otherdie.sides)
+
+> 8
+
+print(mydie.sides)
+
+> 6
+
+###A Sidebar - The Perils of Global Variables and Classes###
+
+There is a very good reason I put the color and sides declarations where i did. These declarations make the variables instance bound, rather than class bound. I -COULD- declare the class as follows:
+
+class Die:
+	color = "Blue"
+	sides = 6
+	
+	def roll(self):
+		return random.random(1,self.sides)
+
+But now the variables are class bound. What does that mean? Let's take our example from above.
+
+mydie = Die()
+otherdie = Die()
+print(mydie.color)
+
+> Blue
+
+Ok, everything seems fine.
+
+otherdie.color = "Black"
+print(otherdie.color)
+
+> Black
+
+Still seems good.... but wait a minute...
+
+print(mydie.color)
+
+> Black
+
+Ah. Now we've got a problem. We can still change the value of the attribute, but because it's class-bound, changing it for one instance of the Die changes it for ALL instances of the Die. In certain cases, this can be a desired trait, but for the most part, we create objects to be their own entities, and don't want changes to one object (such a function is often called a "mutator" in technobabble) to affect any other object but the one we edited.
+## End Sidebar ##
+
+So we've written a class, so we can have at our fingertips a set of functions (granted, a set with one element in this example) that we can act upon an object of this class with. 
+
+#Testing, and why THAT's a class#
+
+Why do we write a class for testing, and what is 'self' in that case?
+
+To first explain this a little better, let's step back to the class definition we wrote.
+
+class Die:
+
+Well, that doesnt say much. You'll notice whenever we write a testing class, it looks like this:
+
+class TestDeck(unittest.TestCase):
+
+The parenthesis contains what's known as an Extends clause. What that clause says is "The class definition you're about to see is a sub-type of the thing in parenthesis, and so inherits all the methods associated thereto".
+
+For example, let me define 2 classes:
+
+class Rectangle:
+	def __init__(self,a,b):
+		self.sides=[a,b]
+	
+	def area(self):
+		return self.sides[0] * self.sides[1]
+	
+class Square(Rectangle):
+	def __init__(self,a):
+		self.sides=[a,a]
+	
+	def squarefunc(self):
+		return "Wakka Wakka"
+		
+So now i can create an object of type Rectangle:
+
+myrect = Rectangle(3,5)
+
+And of type Square:
+
+mysquare = Square(2)
+
+But Square has inherited all of the methods in Rectangle, because it's a extender class (In technobabble: "Square extends Rectangle")
+
+So we can call:
+
+mysquare.area()
+
+> 4
+
+and it works as expected - the method has been inherited from it's 'parent'. However, this extension is NOT bi-directional...
+
+myrect.squarefunc()
+
+> Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: 'Rectangle' object has no attribute 'squarefunc'
+
+The Rectangle class doesn't know anything about methods belonging to extensions of itself. The object can look UP the tree to find methods and attributes, but it cannot look DOWN.
+
+You may notice that both classes have an __init__ function. This is called Overloading, and it follows a simple rule: Whatever the most-specific definition of a function is, is what is used. So in the Square's case, it uses it's own init, rather than its parent's. (If this were not the case, I would have received an error, because the Square's init function takes only 1 parameter, whereas the Rectangle takes 2)
+
+The base class for all objects is "object", which you may see pop up in some example classes. If you dont declare an extension in your class definition, it's considered to extend Object.
+
+### Sidebar: Jargon ###
+
+You will often find that different languages, and even different coders within a given language, call things differently. Methods and Functions. Properties and Attributes. Things like these are generally interchangable, and mean the same thing.
+
+"So why does your error message say it couldnt find an attribute when you obviously tried to run a method?"
+
+Remember in javascript when we saved functions as variables? Python does something similar. "mysquare.area" is an attribute, but that attribute holds a function, which makes it a method. Confused yet? Probably best not to get too caught up on the 'correct' name for things.
+
+### End Sidebar### 
+
+# UnitTest and the TestCase class #
+
+So what does this all have to do with testing? All of the stuff above lets us put the unittest lingo we're learning into context. Here's a test I wrote for my Deck class.
+
+import unittest
+class TestDeck(unittest.TestCase):
+	def test_deck_creation(self):
+		adeck = Deck()
+		self.assertEquals(Deck,type(adeck))
+		self.assertEquals(52,len(adeck.deck))
+		self.assertEquals(52,len(dict((str(card.name)+card.suit, card) for card in adeck.deck).values()))
+		
+Okay, not the cleanest example i've ever written, but lets take a look at it anyway, line by line.
+
+import unittest
+
+Import statements, we've seen those before.
+
+class TestDeck(unittest.TestCase):
+
+Next, we define a class that will hold all of our tests. From what I said before, we can see it's a class that extends the unittest.TestCase class. That base class is important for two reasons, which we'll see shortly.
+
+	def test_deck_creation(self):
+
+Okay, we're defining a function for our class. It takes no parameters (except for self, which is required for all class methods).
+
+### Sidebar: Self, what it is, and why we need it. ###
+
+Self is an important tool when it comes to class objects, mostly for the reasons I gave in the "Perils of Global Variables" sidebar earlier. Without self, we cant reference the Instance's attributes, and instead would have to rely on the Class's attributes. Something we want to avoid.
+
+In this particular case, the "self" refers to the instance of the TestDeck object.
+
+### End Sidebar ###
+
+		adeck = Deck()
+
+So now we're in the meat of this test. I've decided that the first test should be to make sure we can actually create a Deck object (that is, that __init__ works correctly if given the correct parameters). In this case, my Deck class takes no parameters on its __init__, so we can call it with just Deck(). Note that this variable is being created inside the scope of the individual test, so it won't exist once this test is completed.
+
+		self.assertEquals(Deck,type(adeck))
+		
+self refers to the TestDeck-class object, and you'll recall we extended this class from TestCase (in the unittest package). This extension allows us to inherit a method, "assertEquals". assertEquals takes 2 parameters, and checks to make sure they evaluate to the same thing. If they do, great, keep going. If they dont, the test immediately fails. Here, I just check to make sure the object i got back when i created it, is indeed of type Deck.
+
+		self.assertEquals(52,len(adeck.deck))
+		
+Same thing, but this time i'm checking inside the 'adeck' instance. Part of my __init__ code was to fill the deck with the initial 52 cards, so here i check to make sure adeck.deck (a list) contains 52 items.
+
+		self.assertEquals(52,len(dict((str(card.name)+card.suit, card) for card in adeck.deck).values()))
+		
+This one's a bit uglier, but essentially what it does is to check that I have 52 unique card name/suit combinations. No 5-of-a-kind in my deck!
+
+At this point, if the code hasnt thrown a failure (by one of the assertEquals returning false) or an error (Something in the code throws an uncaught error), I have passed the test.
+
+#So how does this all WORK?#
+
+Without going into the weeds on this, so i'm going to simplify: when you tell python to unittest (or nosetests), what it does is load the code file into memory (from deck.py import *), and then looks for any class definitions for TestCases. (Remember, TestDeck extends TestCase, so it will be 'found' by this search). It then creates an instance of that class, and runs all of the non-inherited methods inside it as tests (Remember, TestDeck has inherited a lot of methods from TestCase, like assertEquals. We dont need to run assertEquals as a test by itself, though, because we're not here to test the unittest functions. So we're only interested in non-inherited methods). Also note that our TestDeck class did not overload __init__, so the TestCase one was used instead.
+
+#Negative Testing And You#
+So this is a bit more of an 'advanced' testing method, that I advocate because I spent time as a Quality Assurance (QA) tester for software development.
+
+Essentially, Positive Testing is "If I give it the right things, does it give me what I expect out."
+Negative Testing is "If I give it the WRONG things, does it give me an appropriate error."
+
+So here's a Negative Testing example from the Deck class:
+
+	def test_deck_draw_too_many(self):
+		adeck = Deck()
+		with self.assertRaises(ValueError):
+			adeck.draw(53)
+			
+Again, we define a function, with no additional parameters beyond self.
+We create a deck (because the deck from earlier doesnt exist anymore).
+
+		with self.assertRaises(ValueError):
+		
+This is a bit more complex. It's called a context manager, and it's necessary for me to do this so that I can properly check for errors. Think of using the "with" keyword as starting a mini-environment bubble that you run the subsequent line(s) in, and then when you're done, you check the environment. The next line:
+
+			adeck.draw(53)
+			
+Tries to draw 53 cards from a 52 card deck; that's obviously not going to work. In my deck class, as part of the draw code, I have:
+		if(num > len(self.deck)):
+			raise ValueError("There are not that many cards left in the deck.")
+			
+Raising an error lifts the error to whatever called it. It's what enables your 'try/catch' attempts to see the error. In this case, I raise an object of type ValueError. If I wasnt inside my environment bubble, this error would get raised to the top level, and Error out my test (remember, the UnitTest is listening for Errors, and will mark the test as Error if it sees one ). But instead, it reaches the layer of my environment bubble, and stops. assertRaises then checks to see that there was an Error, and it was of type ValueError. If there WAS an error of that type, the test passes. (Unfortunately, unittest doesnt provide a method to check the error message, just that there was an error of the given type).
+
+### Sidebar: setUp and tearDown ###
+
+There are two special methods in UnitTest TestCases: setUp and tearDown. These functions get executed by unittest before (setUp) and after (tearDown) each test case. In my deck.py example, I could have put the adeck declaration in setUp. tearDown we probably wont use much here, but in tests that may interact with a database, for example, a test suite may setUp by putting things into a database or a file, and those need to be torn down again at the end of the test to prevent contaminating the database by leaving things behind.
