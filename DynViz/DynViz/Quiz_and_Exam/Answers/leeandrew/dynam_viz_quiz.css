@@ -1,0 +1,59 @@
+.bar {
+  fill: rgba(83, 64, 45, .9);
+  stroke: #80254D;
+  stroke-width: 12;
+}
+
+.unhovered {
+  fill: rgba(83, 64, 45, .3);
+}
+
+.hovered {
+  fill: rgba(83, 64, 45, 1);
+}
+
+.label {
+  fill: #F5EFF3;
+  text-anchor: end;
+}
+
+#axis text {
+  font-family: sans-serif;
+  font-size: 14px;
+}
+
+.title {
+  font-family: sans-serif;
+  font-size: 30px;
+  text-anchor: middle;
+}
+
+#tooltip p{
+  font-family: cursive;
+}
+
+#tooltip.hidden {
+  display: none;
+}
+
+#tooltip {
+  position: absolute;
+  width: 200px;
+  height: auto;
+  padding: 10px;
+  background-color: rgba(102, 77, 128, 0.85);
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+  
+  #clickhere
+{
+	background-color: blue;
+	border: 5px black;
+	font-size:14px;
+}
+

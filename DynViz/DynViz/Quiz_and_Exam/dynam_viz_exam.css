@@ -1,0 +1,10 @@
+path:hover {
+  fill: rgba(200, 80, 0, 0.5);
+}
+
+.title {
+  font-size: 36px;
+  text-anchor: middle;
+}
+
+

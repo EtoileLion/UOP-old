@@ -1,0 +1,63 @@
+<html>
+<head>
+<title>Homework 5+ - Some Basic Dynamic Viz</title>
+<link rel="stylesheet" href="./inc/jquery-ui.min.css" />
+<link rel="stylesheet" href="./inc/hw5.css" />
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://d3js.org/d3.v4.min.js" type="text/JavaScript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.15.0/lodash.min.js" type="text/JavaScript"></script>
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.9.0/d3-legend.min.js"></script>
+
+</head>
+<body>
+<h1>2016 Weather Information, San Francisco Area</h1>
+<div id='canvas'>
+<svg></svg>
+</div>
+<div id='controls'>
+	<div id="custom-handle" class="ui-slider-handle"></div>
+</div>
+<div>
+<table><tr><th>Size Scalar</th><td>
+<select id='SizeScale'>
+	<option value="TotalPrecip">Total Precipitation</option>
+	<option value="AvgWind">Average Wind Speed</option>
+	<option value="AvgVis">Average Visibility</option>
+</select>
+</td></tr><tr><th>Color Scalar</th><td>
+<select id='ColorScale'>
+	<option value="TotalPrecip">Total Precipitation</option>
+	<option value="AvgWind">Average Wind Speed</option>
+	<option value="AvgVis">Average Visibility</option>
+</select>
+</td></tr></table>
+</body>
+<footer>
+<i>Information provided by <a href='http://www.noaa.gov/'>NOAA</a> via <a href='http://www.data.gov'>Data.gov</a></i>
+<script src='./inc/hw5.js'></script>
+<script>
+var d = new Date(2016, 0, 1, 0, 0, 0, 0);  
+  $( function() {
+    var handle = $( "#custom-handle" );
+    $( "#controls" ).slider({
+      create: function() {
+		var d2 = d.addDays($( this ).slider( "value" ));
+        handle.text( months[d2.getMonth()]+" "+d2.getDate() );
+      },
+      slide: function( event, ui ) {
+		var d2 = d.addDays(ui.value);
+        handle.text( months[d2.getMonth()]+" "+d2.getDate() );
+      },
+	  stop:	function( event, ui ) { 
+		//I wanted to do this during "slide", but it ended up giving me the wrong value.
+	    show_graph(); 
+	  },
+	  max: 258,
+	  min: 0
+    });
+  } );
+</script>
+</footer>
+</html>

@@ -1,0 +1,30 @@
+  #custom-handle {
+    width: 4em;
+    height: 1.6em;
+    top: 50%;
+    margin-top: -.8em;
+    text-align: center;
+    line-height: 1.6em;
+  }
+  
+  #controls {
+	  margin-top: 20px;
+	  margin-bottom:20px;
+	  width:600px;
+  }
+  
+  #canvas {
+	  width: 850px;
+	  margin-left:50px;
+  }
+  
+  svg {
+	background-image:url("./bg.jpg");
+	background-repeat: no-repeat;
+	width:800px;
+	height:500px;
+  }
+  
+  .label {
+	  font-weight: bold;
+  }

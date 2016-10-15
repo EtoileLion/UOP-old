@@ -1,0 +1,38 @@
+<html>
+<head>
+  <title>Quiz Visualization</title>
+  <meta charset="utf-8" />
+  <script src="./lib/d3.v4.min.js" type="text/JavaScript"></script>
+<!--  <script src="../../Book_Scripts/d3js_in_action/d3.v3.min.js" type="text/JavaScript"></script> -->
+  <script src="./lib/colorbrewer.js" type="text/JavaScript"></script>
+  <script src="./lib/lodash.min.js" type="text/JavaScript"></script>
+  <script src="./lib/org_data.js" type="text/JavaScript"></script>
+  <script src="./lib/assist_viz.js" type="text/JavaScript"></script>
+  <script src="./lib/legend.js" type="text/JavaScript"></script>  
+  <link rel="stylesheet" type="text/css" href="./scatter_viz.css">
+</head>
+<body>
+<h1>Scatter plot</h1>
+<div id="tooltip" class="hidden">
+  <p><strong><span id="category">NYTIME </span>:</strong></p>
+  
+</div>
+
+<div id="viz">
+</div>
+
+<p>Display on...</p>
+
+<div id="color_controls"><p>Color?
+  <button type="button" id="category">category</button>
+  <button type="button" id="event_name">% event_name</button>
+  <button type="button" id="free">free?</button>
+  <button type="button" id="kid_friendly" class="clicked">kid_friendly</button>
+  <button type="button" id="venue_name">venue_name</button></p>
+</div>
+
+</body>
+<footer>
+  <script src="./scatter_viz.js" type="text/JavaScript"></script>
+</footer>
+</html>

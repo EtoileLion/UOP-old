@@ -1,0 +1,68 @@
+body {
+    background-color: SkyBlue;
+}
+
+/* Remove the default margin. */
+body {
+  margin: 0px;
+}
+
+/* Make the visualization container fill the page. */
+#container {
+
+  
+  width: 960px;
+  height: 500px;
+}
+
+/* Put a border around each plot. */
+svg {
+  border-style: solid;
+  border-color: lightgray;
+  border-width: 1px;
+}
+
+
+.axis .tick text {
+  font: 8pt sans-serif;
+}
+
+/* Axis labels */
+.axis text {
+  font: 14pt sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.line {
+  fill: none;
+  stroke: black;
+  stroke-width: 1.5px;
+}
+
+.title-text {
+  text-anchor: middle;
+  font: 24pt sans-serif;
+}
+
+
+
+h1 {
+    color: white;
+    text-align: center;
+}
+
+p {
+    font-family: verdana;
+    font-size: 25px;
+}
+
+path.domain {
+  fill: none;
+  stroke: black;
+}

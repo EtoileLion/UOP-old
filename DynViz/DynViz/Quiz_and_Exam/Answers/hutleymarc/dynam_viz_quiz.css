@@ -1,0 +1,64 @@
+.bar {
+  fill: rgba(83, 64, 45, .9);
+  stroke: #80254D;
+  stroke-width: 6;
+}
+
+.unhovered {
+  fill: rgba(83, 64, 45, .3);
+}
+
+.hovered {
+  fill: rgba(83, 64, 45, 1);
+}
+
+.clicked {
+  fill: rgba(255, 140, 0, 1);
+}
+
+.unclicked {
+  fill: rgba(83, 64, 45, 1);
+}
+
+.label {
+  fill: #F5EFF3;
+  text-anchor: end;
+  pointer-events: none;
+}
+
+#axis text {
+  font-family: sans-serif;
+  font-size: 14px;
+}
+
+.title {
+  font-family: sans-serif;
+  font-size: 30px;
+  text-anchor: middle;
+}
+/*This section taken from lesson file "dynamic_viz.css" */)
+#tooltip.show {
+  position: absolute;
+  width: 200px;
+  height: auto;
+  padding: 10px;
+  background-color: rgba(255, 255, 0, 0.8);
+/*-webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4); */
+  pointer-events: none;
+}
+
+#tooltip.hidden {
+  display: none;
+}
+
+
+#tooltip p{
+  font-family: sans-serif;
+  font-size: 10px;
+
+}

@@ -1,0 +1,71 @@
+<html>
+<head>
+<title>Homework 6 - The Final Frontier</title>
+<link rel="stylesheet" href="./jquery/jquery-ui.min.css" />
+<link rel="stylesheet" href="./hw6.css" />
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://d3js.org/d3.v4.min.js" type="text/JavaScript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.15.0/lodash.min.js" type="text/JavaScript"></script>
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datejs/1.0/date.min.js"></script>
+</head>
+<body>
+<h1>CONFRRM Solar Data, 1998-1999</h1>
+<svg></svg>  
+<div id='controls'>
+<table><tr><td colspan='2'><div id="sub" ></div></td><td colspan='2'><div id='date'>
+	<div id="custom-handle" class="ui-slider-handle"></div></td>
+</div><td colspan='2'><div id="add"></div></td></tr><tr><th colspan='6'><span id='datetext'></span></th></tr>
+<tr><th colspan='3'>X-Scale</th><th colspan='3'>Y-Scale</th></tr>
+<tr><th colspan='3'>
+<select id='x'></select>
+</th><th colspan='3'>
+<select id='y'></select>
+</th>
+</tr><tr><th colspan='3'>Color Scale</th><th colspan='3'>Size Scale</th></tr><tr>
+<th colspan='3'>
+<select id='z'></select>
+</th><th colspan='3'>
+<select id='r'></select>
+</th></tr></table>
+</div>
+</body>
+<footer>
+Data provided by the <a href='http://rredc.nrel.gov/solar/new_data/confrrm/'>Cooperative Networks For Renewable Resource Measurements</a>, with minor alterations.
+<script src="./hw6.js"></script>
+<script> 
+  $( function() {
+    var handle = $( "#custom-handle" );
+    $( "#date" ).slider({
+	  create: function( event, ui ) {
+		$(this).slider('value',4961);
+	  },
+      slide: function( event, ui ) {
+		//This was way too laggy to run at a reasonable clip.
+		//update_chart(); 
+		d3.select("#datetext").text(Date.parse("January 1, 1998").addHours(ui.value).toString("yyyy/M/d H:mm"));
+      },
+	  stop:	function( event, ui ) { 
+	    update_chart(); 
+	  },
+	  max: 17544,
+	  min: 0
+    });
+	$( "#add" ).button({
+		classes: {
+			"ui-button": "highlight"
+		},
+		icon: "ui-icon-arrowthick-1-e"
+	}).click(function() { $("#date").slider('value',$('#date').slider("option", "value")+1); update_chart(); });
+	$( "#sub" ).button({
+		classes: {
+			"ui-button": "highlight"
+		},
+		icon: "ui-icon-arrowthick-1-w"
+	}).click(function() { $("#date").slider('value',$('#date').slider("option", "value")-1); update_chart(); });
+		
+  } );
+</script>
+</footer>
+</html>

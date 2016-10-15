@@ -1,0 +1,32 @@
+#tooltip {
+	fill: "#CCCCCC"
+}
+
+.title {
+	font-size: xx-large;
+    font-family: "Arial Black", Gadget, sans-serif;
+}
+
+.ui-slider {
+    height: 15px;
+    width: 500px;
+    padding-left: 5px; //add this
+}
+
+body {
+	text-align: center;
+	background-color: #FFFFE0;
+}
+
+#sub,#add {
+	border-radius: 15px;
+}
+
+#controls {
+	margin: 0 auto;
+	display: table;
+	background-color: #CCCCCC;
+	border-radius: 15px;
+}
+
+h1 
